@@ -1,0 +1,50 @@
+.square{
+    background-color:#F0D9B5;
+    width:70px;
+    height:70px;
+}
+
+.main-container{
+    display:grid;
+    border: 5px solid black;
+    border-radius:5px;
+    grid-template-columns:repeat(8,1fr);
+    height:560px;
+    width:560px;
+}
+
+.dad-container{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    margin-top: 2rem;
+}
+
+.file-a .square:nth-of-type(even){
+    background-color:#B58863;
+}
+.file-b .square:nth-of-type(odd){
+    background-color:#B58863;
+}
+.file-c .square:nth-of-type(even){
+    background-color:#B58863;
+}
+.file-d .square:nth-of-type(odd){
+    background-color:#B58863;
+}
+.file-e .square:nth-of-type(even){
+    background-color:#B58863;
+}
+.file-f .square:nth-of-type(odd){
+    background-color:#B58863;
+}
+.file-g .square:nth-of-type(even){
+    background-color:#B58863;
+}
+.file-h .square:nth-of-type(odd){
+    background-color:#B58863;
+}
+
+img{
+    width:100%;
+}
