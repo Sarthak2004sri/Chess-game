@@ -5,6 +5,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
+    position:relative;
 }
 
 .main-container{
@@ -24,7 +25,7 @@
 }
 
 .file-a .square:nth-of-type(even){
-    background-color:#B58863;
+    background-color:#B58863; 
 }
 .file-b .square:nth-of-type(odd){
     background-color:#B58863;
@@ -49,7 +50,7 @@
 }
 
 img{
-    width:100%;
+    width:90%;
     transition: transform 0.2s;
 }
 
@@ -62,4 +63,40 @@ img:hover{
     height:25%;
     background-color:#3f3935;
     border-radius: 50%;
+}
+
+.files .square .alphaodd{
+    color: #B58863;
+    font-size: 12px;
+    position:absolute;
+    bottom: 2px;
+    right: 2px;
+    z-index:1;
+}
+
+.files .square .alphaeve{
+   color: #F0D9B5;
+   font-size: 12px;
+    position:absolute;
+    bottom: 2px;
+    right: 2px;
+    z-index:1;
+}
+
+.files .square:nth-of-type(odd) .num{
+    color: #B58863;
+    font-size: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
+}
+
+.files .square:nth-of-type(even) .num{
+    color: #F0D9B5;
+    font-size: 12px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 1;
 }

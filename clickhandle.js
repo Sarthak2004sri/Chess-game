@@ -8,3 +8,4 @@ squares.forEach(square =>{
     });
 });
 
+
