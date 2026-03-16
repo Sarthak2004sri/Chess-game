@@ -1,52 +1,90 @@
-const arrpawn=[];
+const arrpawn = [];
 
-for(const i of filearr){
-    arrpawn.push(document.getElementById(i+2));
+for (const i of filearr) arrpawn.push(document.getElementById(i + 2));
+for (const i of filearr) arrpawn.push(document.getElementById(i + 7));
+
+for (const i of arrpawn) {
+    i.addEventListener('click', () => handlePawnClick(i));
 }
 
-for(const i of filearr){
-    arrpawn.push(document.getElementById(i+7));
-}
+function handlePawnClick(square) {
+    console.log("clicked", square.getAttribute('id'));
+    console.log("has img:", !!square.querySelector("img"));
+    console.log("valid turn:", isValidTurn(square));
+    console.log("color:", square.querySelector("img")?.getAttribute("data-color"));
+    console.log("currentturn:", currentturn);
 
-for(const i of arrpawn){
-  i.addEventListener('click', () => {
-    document.querySelectorAll('.circle').forEach(c=>c.remove());
+    if (!square.querySelector("img")) return;
+    if (!isValidTurn(square)) return;
 
-    const currentid = i.getAttribute("id");
-    let change = parseInt(currentid[1]);  
-    const steps = [];
+    document.querySelectorAll('.circle').forEach(c => c.remove());
 
-    for(let j = 0; j < 2; j++){
-        const step=change==2 ? change+j+1 : change - j - 1;    
-        steps.push(document.getElementById(currentid[0] + step));
+    const id = square.getAttribute('id');
+    const file = id[0];
+    const rank = parseInt(id[1]);
+    const color = square.querySelector('img').getAttribute('data-color');
+    const direction = color === 'white' ? -1 : 1;
+    const startRank = color === 'white' ? 7 : 2;
+
+    const oneStep = document.getElementById(file + (rank + direction));
+    if (oneStep && !oneStep.querySelector('img')) {
+        addCircle(oneStep);
+
+        if (rank === startRank) {
+            const twoStep = document.getElementById(file + (rank + direction * 2));
+            if (twoStep && !twoStep.querySelector('img')) {
+                addCircle(twoStep);
+            }
+        }
     }
 
-    light(steps[0],steps[1],i);
-  })
-}
+    const leftFile = filearr[filearr.indexOf(file) - 1];
+    const rightFile = filearr[filearr.indexOf(file) + 1];
 
-//function to add highlighting
-function light(first,second,pawn){
-    let circle1=document.createElement("div");
-    let circle2=document.createElement("div");
-    circle1.setAttribute("class","circle");
-    circle2.setAttribute("class","circle");
-    first.appendChild(circle1);
-    second.appendChild(circle2);
-
-    first.addEventListener("click",()=>{
-       const img=pawn.querySelector("img");
-       first.appendChild(img);
-       document.querySelectorAll(".circle").forEach(c=>c.remove());
+    [leftFile, rightFile].forEach(diagFile => {
+        if (!diagFile) return;
+        const diagSq = document.getElementById(diagFile + (rank + direction));
+        if (!diagSq) return;
+        const diagImg = diagSq.querySelector('img');
+        if (diagImg && diagImg.getAttribute('data-color') !== color) {
+            addCircle(diagSq, 'capture');
+        }
     });
 
-    second.addEventListener("click",()=>{
-        const img=pawn.querySelector("img");
-       second.appendChild(img);
-       document.querySelectorAll(".circle").forEach(c=>c.remove());
+    lightpawn(square);
+}
+
+function lightpawn(pawn) {
+    document.querySelectorAll('.circle').forEach(circle => {
+        const square = circle.parentElement;
+
+        circle.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            document.querySelectorAll('.circle').forEach(c => c.remove());
+
+            const img = pawn.querySelector('img');
+            if (!img) return;
+
+            const enemy = square.querySelector('img');
+            if (enemy) enemy.remove();
+
+            square.appendChild(img);
+
+            square.addEventListener('click', () => handlePawnClick(square));
+
+            switchTurn();
+        });
     });
 }
 
-
-
-
+function addCircle(square, type) {
+    const circle = document.createElement('div');
+    circle.setAttribute('class', type === 'capture' ? 'circle enemy' : 'circle');
+    const img = square.querySelector('img');
+    if (img) {
+        square.insertBefore(circle, img);  
+    } else {
+        square.appendChild(circle);
+    }
+}

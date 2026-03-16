@@ -52,17 +52,24 @@
 img{
     width:90%;
     transition: transform 0.2s;
+    pointer-events:none;
 }
 
 img:hover{
     transform:scale(1.2);
 }
 
-.circle{
-    width:25%;
-    height:25%;
-    background-color:#3f3935;
+.circle {
+    width: 25%;
+    height: 25%;
+    background-color: #3f3935;
     border-radius: 50%;
+    z-index: 10;
+    position: absolute;       
+    top: 50%;                  
+    left: 50%;                 
+    transform: translate(-50%, -50%);  
+    pointer-events: auto;     
 }
 
 .files .square .alphaodd{
@@ -73,7 +80,6 @@ img:hover{
     right: 2px;
     z-index:1;
 }
-
 .files .square .alphaeve{
    color: #F0D9B5;
    font-size: 12px;
@@ -99,4 +105,19 @@ img:hover{
     top: 2px;
     left: 2px;
     z-index: 1;
+}
+
+
+.circle.enemy {
+    background: transparent;
+    border: 3px solid grey;
+    border-radius: 50%;
+    z-index: 10;
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
 }
