@@ -8,12 +8,6 @@ for (const i of arrpawn) {
 }
 
 function handlePawnClick(square) {
-    console.log("clicked", square.getAttribute('id'));
-    console.log("has img:", !!square.querySelector("img"));
-    console.log("valid turn:", isValidTurn(square));
-    console.log("color:", square.querySelector("img")?.getAttribute("data-color"));
-    console.log("currentturn:", currentturn);
-
     if (!square.querySelector("img")) return;
     if (!isValidTurn(square)) return;
 
@@ -58,7 +52,7 @@ function lightpawn(pawn) {
     document.querySelectorAll('.circle').forEach(circle => {
         const square = circle.parentElement;
 
-        circle.addEventListener('click', (e) => {
+        const moveHandler = (e) => {
             e.stopPropagation();
 
             document.querySelectorAll('.circle').forEach(c => c.remove());
@@ -70,11 +64,13 @@ function lightpawn(pawn) {
             if (enemy) enemy.remove();
 
             square.appendChild(img);
-
             square.addEventListener('click', () => handlePawnClick(square));
 
             switchTurn();
-        });
+        };
+
+        circle.addEventListener('click', moveHandler, { once: true });
+        square.addEventListener('click', moveHandler, { once: true });
     });
 }
 
@@ -83,7 +79,7 @@ function addCircle(square, type) {
     circle.setAttribute('class', type === 'capture' ? 'circle enemy' : 'circle');
     const img = square.querySelector('img');
     if (img) {
-        square.insertBefore(circle, img);  
+        square.insertBefore(circle, img);
     } else {
         square.appendChild(circle);
     }

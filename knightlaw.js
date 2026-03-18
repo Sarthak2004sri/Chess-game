@@ -56,7 +56,7 @@ function lightknight(steps, knight) {
         circle.setAttribute("class", j.getAttribute("data-enemy") === "true" ? "circle enemy" : "circle");
         j.appendChild(circle);
 
-        circle.addEventListener("click", (e) => {
+        const moveHandler = (e) => {
             e.stopPropagation();
 
             document.querySelectorAll(".circle").forEach(c => c.remove());
@@ -69,11 +69,12 @@ function lightknight(steps, knight) {
             if (enemyimg) enemyimg.remove();
 
             j.appendChild(img);
-
             j.addEventListener("click", () => handleKnightClick(j));
 
             switchTurn();
+        };
 
-        }, { once: true });
+        circle.addEventListener("click", moveHandler, { once: true });
+        j.addEventListener("click", moveHandler, { once: true });
     });
 }
